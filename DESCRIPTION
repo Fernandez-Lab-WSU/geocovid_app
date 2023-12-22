@@ -1,5 +1,5 @@
 Package: geocovidapp
-Title: Visualiza la movilidad ciudadana y los casos de COVID-19 en Bs. As., Argentina.
+Title: Visualiza la movilidad ciudadana y los casos de COVID-19 en Bs. As., Argentina
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Florencia",

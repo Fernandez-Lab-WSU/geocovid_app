@@ -7,7 +7,7 @@
 \format{
 \subsection{\code{px_baires}}{
 
-Una extracto de la abse de datos con 2230 filas y 4 columnas:
+Una extracto de la abse de datos con 4080 filas y 11 columnas:
 \describe{
 \item{fecha}{ID}
 \item{locacion}{Provincia}
@@ -17,6 +17,8 @@ Una extracto de la abse de datos con 2230 filas y 4 columnas:
 \item{mañana_8}{Promedio para el raster de la mañana}
 \item{tarde_16}{Promedio para el raster de la tarde}
 \item{px_mean_dianoche}{Promedio para los rasters de mañana y tarde}
+\item{criterio}{Vuelve variable categorica px_mean_dianoche}
+\item{criterio_noche}{Vuelve variable categorica noche_0}
 \item{geom}{sfc_POLYGON}
 }
 }
@@ -25,6 +27,8 @@ Una extracto de la abse de datos con 2230 filas y 4 columnas:
 px_baires
 }
 \description{
-Ver el repositorio de GeoCovid BsAs para mas detalle de estas Variables
+Ver el repositorio de GeoCovid BsAs para mas detalle de estas Variables.
+Se esta empleando solo un extracto de la base de datos para este dataset de
+ejempplo.
 }
 \keyword{datasets}

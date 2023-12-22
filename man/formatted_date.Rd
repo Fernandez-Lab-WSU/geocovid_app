@@ -2,7 +2,7 @@
 % Please edit documentation in R/fun_conversion_fecha.R
 \name{formatted_date}
 \alias{formatted_date}
-\title{Convierte el formato de la fecha de a "YYYY-MM-DD"}
+\title{Convierte el formato de la fecha de \%Y-\%m-\%dT\%H:\%M:\%S a "\%Y-\%m-\%d"}
 \usage{
 formatted_date(fecha)
 }
@@ -10,13 +10,13 @@ formatted_date(fecha)
 \item{fecha}{Fecha}
 }
 \value{
-Fecha en formato "YYYY-MM-DD"
+Fecha en formato "\%Y-\%m-\%d"
 }
 \description{
-Convierte el formato de la fecha de a "YYYY-MM-DD"
+Convierte el formato de la fecha de \%Y-\%m-\%dT\%H:\%M:\%S a "\%Y-\%m-\%d"
 }
 \examples{
 
-formatted_date("")
+formatted_date("2020-05-10T07:00:00.000Z")
  
 }
