@@ -7,7 +7,7 @@
 [![R-CMD-check](https://github.com/Fernandez-Lab-WSU/geocovid_app/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Fernandez-Lab-WSU/geocovid_app/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-ESTE PAQUETE SE ENCUENTRA EN REVISION. ES UNA VERSION PRELIMINAR.
+ESTE PAQUETE SE ENCUENTRA EN REVISION Y LA APP DISPONIBLE ES UNA VERSION PRELIMINAR.
 
 ## Instalación
 
