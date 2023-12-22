@@ -51,10 +51,10 @@ ReporteServer <- function(id,
           formatted_date <- format(fecha, format = "%Y-%m-%d")
           formatted_date
         }else{
-          fecha = fecha()
-      parsed_date <- lubridate::ymd_hms()
-      formatted_date <- format(parsed_date, format = "%Y-%m-%d")
-      formatted_date}
+     
+      formatted_date <- formatted_date(fecha()) 
+      formatted_date
+      }
     })
 
 

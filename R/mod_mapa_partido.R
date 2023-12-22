@@ -77,14 +77,8 @@ MapaPartido_Server <-  function(id,
         }else{
 
 
-   # Original date string
-   original_date <- fecha()
 
-   # Parse the original date string
-   parsed_date <- ymd_hms(original_date)
-
-   # Format the date to "YYYY-MM-DD" format
-   formatted_date <- format(parsed_date, format = "%Y-%m-%d") }
+   formatted_date <- formatted_date(fecha())  }
 
 
 

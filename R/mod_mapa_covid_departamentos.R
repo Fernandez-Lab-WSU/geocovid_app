@@ -177,7 +177,7 @@ base::colnames(px_baires)[2] <- as.character("Noche")
 
   })
 
-  formatted_date <- shiny::reactive({
+  fecha_formato <- shiny::reactive({
 
   # Agrego un dia por default para que renderice si no hay otras fechas.
     if(is.null(fechas$casos_covid())){
@@ -186,10 +186,8 @@ base::colnames(px_baires)[2] <- as.character("Noche")
 
 
     }else{
-
-      parsed_date <- lubridate::ymd_hms(fechas$casos_covid())
-
-      format(parsed_date, format = "%Y-%m-%d")
+      fecha = fechas$casos_covid()
+      formatted_date(fecha = fecha) 
 
     }
 
@@ -201,7 +199,7 @@ base::colnames(px_baires)[2] <- as.character("Noche")
     paste('Movilidad ciudadana',
           if(input$tipo_tab == 'pc'){ 'prepandemia'}else{ 'semanal'},
           'para', if(input$momento == 'criterio'){ 'el promedio mañana y tarde'}else{ 'la noche'},
-          'de', format(formatted_date(), format = "%d-%m-%Y"))
+          'de', format(fecha_formato(), format = "%d-%m-%Y"))
   })
 
       # Datos de casos de COVID para el bubble map
@@ -211,7 +209,7 @@ base::colnames(px_baires)[2] <- as.character("Noche")
         
          comunas <- data_sisa |>
           dplyr::filter(residencia_provincia_nombre == 'CABA' &
-                          fecha_enfermo == formatted_date()) |>
+                          fecha_enfermo == fecha_formato()) |>
           dplyr::group_by(residencia_provincia_nombre) |>
           dplyr::summarize(n_casos = dplyr::n()) |>
           dplyr::rename('partido' = residencia_provincia_nombre )
@@ -220,7 +218,7 @@ base::colnames(px_baires)[2] <- as.character("Noche")
 
         casos_diarios <- dplyr::filter(data_sisa,
                                        residencia_provincia_nombre == 'Buenos Aires' &
-                                         fecha_enfermo == formatted_date() ) |>  #combino horarios
+                                         fecha_enfermo == fecha_formato() ) |>  #combino horarios
           dplyr::group_by(residencia_departamento_nombre) |>
           dplyr::summarize(n_casos = dplyr::n()) |>
           dplyr::rename(partido = residencia_departamento_nombre) |>
@@ -262,44 +260,9 @@ base::colnames(px_baires)[2] <- as.character("Noche")
 
        # st_read('data/rasters/px_baires.gpkg')  
        px_baires |>
-        dplyr::filter(fecha == formatted_date(),
+        dplyr::filter(fecha == fecha_formato(),
                       tipo_de_raster == input$tipo_tab
-                      ) |>
-         dplyr::mutate(criterio = dplyr::case_when(px_mean_dianoche > 40 ~ "mas de 40",
-                                     40 > px_mean_dianoche & px_mean_dianoche > 30 ~ "40 - 30",
-                                     30 > px_mean_dianoche & px_mean_dianoche > 20 ~ "30 - 20",
-                                     20 > px_mean_dianoche & px_mean_dianoche > 10 ~ "20 - 10",
-                                     10 > px_mean_dianoche & px_mean_dianoche > 1 ~ "10 - 1",
-                                     1 > px_mean_dianoche & px_mean_dianoche> -1 ~ "sin cambios",
-                                     -1 > px_mean_dianoche& px_mean_dianoche > -10 ~ "-1 - -10",
-                                     -10 > px_mean_dianoche& px_mean_dianoche > -20 ~ "-10 - -20",
-                                     -20 > px_mean_dianoche& px_mean_dianoche > -30 ~ "-20 - -30",
-                                     -30 > px_mean_dianoche& px_mean_dianoche > -40 ~ "-30 - -40",
-                                     -40 > px_mean_dianoche  ~ "menor a -40"),
-                criterio_noche = dplyr::case_when(noche_0 > 40 ~ "mas de 40",
-                                     40 > noche_0 & noche_0 > 30 ~ "40 - 30",
-                                     30 > noche_0 & noche_0 > 20 ~ "30 - 20",
-                                     20 > noche_0 & noche_0 > 10 ~ "20 - 10",
-                                     10 > noche_0 & noche_0 > 1 ~ "10 - 1",
-                                     1 > noche_0 & noche_0> -1 ~ "sin cambios",
-                                     -1 > noche_0 & noche_0 > -10 ~ "-1 - -10",
-                                     -10 > noche_0 & noche_0 > -20 ~ "-10 - -20",
-                                     -20 > noche_0 & noche_0 > -30 ~ "-20 - -30",
-                                     -30 > noche_0 & noche_0 > -40 ~ "-30 - -40",
-                                     -40 > noche_0  ~ "menor a -40")) |>
-         dplyr::mutate(criterio = forcats::fct_relevel(criterio, c("mas de 40", "40 - 30",
-                                                   "30 - 20","20 - 10","10 - 1",
-                                                   "sin cambios",
-                                                   "-1 - -10", "-10 - -20",
-                                                   "-20 - -30", "-30 - -40",
-                                                   "menor a -40")),
-                criterio_noche = forcats::fct_relevel(criterio_noche, c("mas de 40", "40 - 30",
-                                                   "30 - 20","20 - 10","10 - 1",
-                                                   "sin cambios",
-                                                   "-1 - -10", "-10 - -20",
-                                                   "-20 - -30", "-30 - -40",
-                                                   "menor a -40"))) |> sf::st_as_sf()
-
+                      ) 
       })
 
 burbujas_plot <- shiny::reactive({

@@ -7,9 +7,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' runapp()
+#' run_app()
 #' }
-runapp <- function() {
+run_app <- function() {
   
   shiny::shinyApp(ui = ui, server = server)
 }

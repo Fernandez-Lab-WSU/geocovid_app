@@ -61,14 +61,9 @@ HistogramaRaster_Server <- function(id,
           formatted_date <- format("2020-05-03", format = "%Y-%m-%d")
           }else{
 
-        # Fecha original
-        original_date <- fecha()
-
-        # convierto a formato fecha
-        parsed_date <- lubridate::ymd_hms(original_date)
-
+        
         # Convierto a formato "YYYY-MM-DD" 
-        formatted_date <- format(parsed_date, format = "%Y-%m-%d")
+        formatted_date <- formatted_date(fecha()) 
 
         }
 
@@ -138,7 +133,7 @@ raster_hist <- reactive({
 
       output$histograma <- renderPlot({
         par(mar=c(4,1,3,1)) # bottom, left, top, right
-print(terra::values(raster_hist()))
+
         hist(terra::values(raster_hist()),
              breaks = c(50,  40, 30 ,
                         20 , 10, 1, -1,

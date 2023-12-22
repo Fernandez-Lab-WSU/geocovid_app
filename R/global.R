@@ -78,7 +78,7 @@ base_raster <- all_files[grep(".tif$",
 
 
 
-# Define an alias 'images' for the directory 'inst/www/images'
+# Permite leer el directorio imagenes dentro de www/'
 shiny::addResourcePath(prefix = "imagenes", 
                 directoryPath = system.file("www/imagenes", 
                                             package = "geocovidapp"))
