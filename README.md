@@ -1,14 +1,11 @@
 
-# GeoCovid App <img src="imagenes/geocovid_logo.png" align="right" height="150" />
+# GeoCovid App <img src="inst/www/imagenes/geocovid_logo.png" align="right" height="150" />
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# GeoCovid app
-
 <!-- badges: start -->
 <!-- badges: end -->
 
-…
+THIS PACKAGE IS UNDER REVIEW
 
 ## Instalación
 
@@ -23,9 +20,8 @@ geocovidapp::runapp()
 
 ## Licencias
 
-- El código contenido en este repositorio se encuentra bajo una
-  [licencia
-  MIT](https://github.com/Fernandez-Lab-WSU/geocovidapp/blob/main/LICENSE.md).
+El código contenido en este repositorio se encuentra bajo una [licencia
+MIT](https://github.com/Fernandez-Lab-WSU/geocovidapp/blob/main/LICENSE.md).
 
 ## Código de Conducta
 
