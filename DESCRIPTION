@@ -21,7 +21,7 @@ Imports:
     leaflet (>= 2.2.0),
     leaflet.extras (>= 1.0.0),
     lubridate (>= 1.9.2),
-    plotly (>= 4.10.3.9000),
+    plotly (>= 4.10.3),
     rlang (>= 1.1.2),
     rmarkdown (>= 2.24),
     sf (>= 1.0.14),
