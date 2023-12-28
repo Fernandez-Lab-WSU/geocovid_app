@@ -17,7 +17,7 @@ ReporteServer(
 )
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{part}{Partido de la provincia de Buenos Aires, seleccionado en otro
 módulo.}

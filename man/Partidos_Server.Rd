@@ -8,7 +8,7 @@ dinámica.}
 Partidos_Server(id, bsas, amba_reducido_names)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{bsas}{Dataset de clase sf con los partidos de Buenos Aires.}
 

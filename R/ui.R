@@ -6,7 +6,9 @@ ui <- function(){
   shiny::navbarPage(
   title = "GeoCovid App",
   id = "nav",
-  shiny::includeCSS(here::here("inst", "www", "custom.css")),
+  shiny::includeCSS(here::here("inst",
+                               "www", 
+                               "custom.css")),
   shinyjs::useShinyjs(),
   position = 'fixed-top', # el zoom al mapa del tab1 traia problemas sino.
   tags$style(type = "text/css", ".navbar{padding-left:30px}"),
@@ -138,7 +140,6 @@ ui <- function(){
   shiny::tabPanel(title ="Panorama Buenos Aires",
                   value = "cov_bsas",
                   tags$style(type="text/css", "body {margin-top: 50px;}"),
-                  # shiny::tags$h4("Movilidad ciudadana y casos de COVID diarios"),
                   MapaCovidDepartamentos_UI('casos_covid', bsas)
   ),
   shiny::tabPanel(title = "Sobre el proyecto GeoCovid",

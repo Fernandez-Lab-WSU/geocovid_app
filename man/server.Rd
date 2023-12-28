@@ -7,13 +7,13 @@
 server(input, output, session, r)
 }
 \arguments{
-\item{input}{}
+\item{input}{input}
 
-\item{output}{}
+\item{output}{output}
 
-\item{session}{}
+\item{session}{session}
 
-\item{r}{}
+\item{r}{r}
 }
 \description{
 GeoCovid app Server

@@ -7,7 +7,7 @@
 MapaCovidElecciones_Server(id, data_sisa, bsas, part)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{data_sisa}{Dataframe con los casos diarios reportados de COVID-19.}
 

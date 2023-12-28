@@ -18,7 +18,7 @@ MapaPartido_Server(
 )
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{amba_reducido_names}{String. Vector con los nombres de los partidos
 que conforman el AMBA.}
@@ -37,13 +37,13 @@ o el momento del día que representan.}
 \item{tipo_de_raster}{String. Si el raster corresponde a el cambio porcentual
 prepandemia (pc) o semanal (7dpc).}
 
+\item{opacidad}{Double. Valor de opacidad del raster.}
+
 \item{part}{Partido de la provincia de Buenos Aires, seleccionado en otro
 módulo.}
 
 \item{momento_dia}{Entero. Hora del dia representada en el raster, puede ser
 0am, 8 am o 4 pm.}
-
-\item{opacity}{Double. Valor de opacidad del raster.}
 }
 \value{
 Mapa raster por partido creado con leaflet.

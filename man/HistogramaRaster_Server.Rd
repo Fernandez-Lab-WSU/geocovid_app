@@ -17,7 +17,7 @@ HistogramaRaster_Server(
 )
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{amba_reducido_names}{String. Vector con los nombres de los partidos
 que conforman el AMBA.}

@@ -1,7 +1,7 @@
 #' IU: Seleccion de departamentos de provincia de Buenos Aires con IU
 #' dinámica.
 #'
-#' @param id 
+#' @param id Module name
 #' @param amba_reducido_names String. Vector con los nombres de los partidos 
 #' que conforman el AMBA.
 #' @param base_raster Dataframe que lista todos los rasters y desagrega en 
@@ -36,14 +36,16 @@
 #' Servidor: Seleccion de departamentos de provincia de Buenos Aires con IU
 #' dinámica.
 #'
-#' @param id 
+#' @param id Module name
 #' @param bsas Dataset de clase sf con los partidos de Buenos Aires.
 #' @param amba_reducido_names String. Vector con los nombres de los partidos 
 #' que conforman el AMBA.
 #'
 #' @return El area y el partido seleccionado.
 #' @export
-Partidos_Server <- function(id, bsas, amba_reducido_names) {
+Partidos_Server <- function(id, 
+                            bsas, 
+                            amba_reducido_names) {
    moduleServer(
      id,
      function(input, output, session){

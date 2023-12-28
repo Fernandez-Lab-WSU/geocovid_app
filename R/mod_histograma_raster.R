@@ -1,7 +1,6 @@
 #' IU: Histograma de la movilidad ciudadana por departamento
 #'
-#' @param id 
-#'
+#' @param id Module name
 #' @return Histograma de la movilidad ciudadana por partido, respetando la 
 #' escala de colores del raster.
 #' @export
@@ -21,7 +20,7 @@ HistogramaRaster_UI <- function(id) {
 
 #' Servidor: Histograma de la movilidad ciudadana por departamento
 #'
-#' @param id 
+#' @param id Module name
 #' @param bsas Mapa vectoria de la provincia de Buenos Aires simplifica
 #' do.
 #' @param amba_reducido_names String. Vector con los nombres de los partidos 
@@ -41,6 +40,8 @@ HistogramaRaster_UI <- function(id) {
 #'
 #' @return Histograma de la movilidad ciudadana por partido, respetando la 
 #' escala de colores del raster.
+#' 
+#' @importFrom graphics hist par
 #' @export
 HistogramaRaster_Server <- function(id,
                                     amba_reducido_names,
@@ -70,11 +71,11 @@ HistogramaRaster_Server <- function(id,
 
         # selecciono un solo dia y tiempo, ya que estoy probando
         raster_data <-  base_raster |>
-          dplyr::filter(fecha == as.Date(formatted_date,
+          dplyr::filter(.data$fecha == as.Date(formatted_date,
                                          origin = "1970-01-01"),
-                        tipo_de_raster == tipo_de_raster(),
-                        momento == momento_dia,
-                        locacion == area()
+                        .data$tipo_de_raster == tipo_de_raster(),
+                        .data$momento == momento_dia,
+                        .data$locacion == area()
           )
 
         terra::rast(paste0('data/rasters/',raster_data$value))
@@ -91,7 +92,8 @@ raster_hist <- reactive({
 
           # recorto por poligono
           poli <- sf::st_as_sf(subset(amba,
-                                      partido == part())) |> sf::st_transform(3857)
+                                      partido == part())) |> 
+            sf::st_transform(3857)
 
           imagen2 <- imagen() |>
             terra::mask(poli) |>

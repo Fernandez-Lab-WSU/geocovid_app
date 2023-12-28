@@ -7,7 +7,7 @@
 Dygraph_Server(id, data_sisa, amba_reducido_names, base_raster, area, part)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{data_sisa}{Dataframe con los casos diarios reportados de COVID-19.}
 

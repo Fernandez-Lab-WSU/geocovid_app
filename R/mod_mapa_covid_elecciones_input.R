@@ -1,6 +1,6 @@
 #' IU: Selector de fecha
 #'
-#' @param id 
+#' @param id Module name
 #' @param amba_reducido_names String. Vector con los nombres de los partidos 
 #' que conforman el AMBA.
 #' @param base_raster Dataframe que lista todos los rasters y desagrega en 
@@ -31,7 +31,7 @@ MapaCovidElecciones_UI <- function(id, base_raster, amba_reducido_names) {
 
 #' Servidor: Selector de fecha
 #'
-#' @param id 
+#' @param id Module name
 #' @param data_sisa Dataframe con los casos diarios reportados de COVID-19. 
 #' @param bsas Mapa vectoria de la provincia de Buenos Aires simplifica
 #' do. 

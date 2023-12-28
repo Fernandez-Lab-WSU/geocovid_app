@@ -3,7 +3,7 @@
 #' @description
 #' Este mapa se encuentra en el tab 3 de GeoCovid app.
 #' 
-#' @param id 
+#' @param id Module name
 #' @param bsas Dataset de clase sf con los partidos de Buenos Aires.
 #'
 #' @return Elemntos de interfaz de usuario del tab 3
@@ -82,17 +82,17 @@ MapaCovidDepartamentos_UI <- function(id, bsas){
 #' @description
 #' Este mapa se encuentra en el tab 3 de GeoCovid app.
 #'
-#' @param id 
+#' @param id Module name
 #' @param data_sisa Dataframe con los casos diarios reportados de COVID-19.
 #' @param base_raster Dataframe que lista todos los rasters y desagrega en 
 #' sus columnas características de interes, como si son rasters de 
 #' AMBA o Buenos Aires, si el cambio porcentual es semanal o prepandemia 
 #' o el momento del día que representan. 
-#' @param date Fecha seleccionada.
 #' @param bsas Dataset de clase sf con los partidos de Buenos Aires.
 #' @param amba_caba String. Vector con los nombres de los partidos 
 #' que conforman el AMBA sin las comunas de Provincia de Buenos Aires.
 #'
+#' @importFrom stats quantile
 #' @return Mapas y gráficos del tab 3.
 #' @export
 MapaCovidDepartamentos_Server <- function(id,
@@ -120,22 +120,26 @@ MapaCovidDepartamentos_Server <- function(id,
 
    # pxd_baires <- st_read('data/px_baires.gpkg') 
     pxd_baires <- pxd_baires |>
-      dplyr::filter(fecha < '2020-05-15' & fecha > '2020-05-08')
+      dplyr::filter(.data$fecha < '2020-05-15' &
+                    .data$fecha > '2020-05-08')
 
      pxdy <-  pxd_baires |>
-        dplyr::filter(partido == input$partidos,
-                      tipo_de_raster == input$tipo_tab)
-    # st_geometry(pxdy) <- NULL
+        dplyr::filter(.data$partido == input$partidos,
+                      .data$tipo_de_raster == input$tipo_tab)
 
      a <- pxdy[, c('fecha', 'px_mean_dianoche')]
      b <- pxdy[, c('fecha', 'mañana_8')]
      c <- pxdy[, c('fecha', 'tarde_16')]
      d <- pxdy[, c('fecha', 'noche_0')]
 
-      px_baires_dianoche <- xts::xts(a$px_mean_dianoche,  order.by = a$fecha)
-      px_baires_8  <- xts::xts(b$mañana_8,  order.by = b$fecha)
-      px_baires_16  <- xts::xts(c$tarde_16,  order.by = c$fecha)
-      px_baires_0  <- xts::xts(d$noche_0,  order.by = d$fecha)
+      px_baires_dianoche <- xts::xts(a$px_mean_dianoche, 
+                                     order.by = a$fecha)
+      px_baires_8  <- xts::xts(b$mañana_8,
+                               order.by = b$fecha)
+      px_baires_16  <- xts::xts(c$tarde_16, 
+                                order.by = c$fecha)
+      px_baires_0  <- xts::xts(d$noche_0,
+                               order.by = d$fecha)
 
       px_baires <- cbind(px_baires_dianoche,
                          px_baires_0,
@@ -143,19 +147,15 @@ MapaCovidDepartamentos_Server <- function(id,
                          px_baires_16)
 
 
-
 base::colnames(px_baires)[1] <- as.character("PromedioDiaYTarde")
 base::colnames(px_baires)[2] <- as.character("Noche")
 
-
-
       dygraphs::dygraph(data = px_baires ) |>
-        dygraphs::dySeries(c("px_baires_8","PromedioDiaYTarde","px_baires_16")) |>
+        dygraphs::dySeries(c("px_baires_8",
+                             "PromedioDiaYTarde",
+                             "px_baires_16")) |>
         dygraphs::dySeries("Noche") |>
         dygraphs::dyOptions(labelsUTC = TRUE,
-                  # drawPoints = TRUE,
-                  # pointSize = 2,
-                  # stepPlot = TRUE,
                   drawGrid = FALSE
         ) |>
         dygraphs::dyAxis("y",
@@ -167,8 +167,6 @@ base::colnames(px_baires)[2] <- as.character("Noche")
         dygraphs::dyEvent("2020-04-26") |>
         dygraphs::dyEvent("2020-05-10") |>
         dygraphs::dyLegend(show = 'follow', width = 400
-                 # labelsDiv = session$ns("l3"),
-                 # labelsSeparateLines = TRUE
                  ) |>
         dygraphs::dyCSS(system.file("geocovidapp/www/legend.css", 
                                     package = "geocovidapp"))
@@ -198,7 +196,8 @@ base::colnames(px_baires)[2] <- as.character("Noche")
 
     paste('Movilidad ciudadana',
           if(input$tipo_tab == 'pc'){ 'prepandemia'}else{ 'semanal'},
-          'para', if(input$momento == 'criterio'){ 'el promedio mañana y tarde'}else{ 'la noche'},
+          'para', if(input$momento == 'criterio'){ 'el promedio mañana y tarde'}
+          else{ 'la noche'},
           'de', format(fecha_formato(), format = "%d-%m-%Y"))
   })
 
@@ -208,28 +207,29 @@ base::colnames(px_baires)[2] <- as.character("Noche")
         # centroides_mapa <- st_read("data/shapefiles_baires_amba/centroides_mapa.gpkg") # incluye caba
         
          comunas <- data_sisa |>
-          dplyr::filter(residencia_provincia_nombre == 'CABA' &
-                          fecha_enfermo == fecha_formato()) |>
-          dplyr::group_by(residencia_provincia_nombre) |>
+          dplyr::filter(.data$residencia_provincia_nombre == 'CABA' &
+                          .data$fecha_enfermo == fecha_formato()) |>
+          dplyr::group_by(.data$residencia_provincia_nombre) |>
           dplyr::summarize(n_casos = dplyr::n()) |>
-          dplyr::rename('partido' = residencia_provincia_nombre )
+          dplyr::rename('partido' = .data$residencia_provincia_nombre)
 
         comunas[1,'partido'] <- "Capital Federal"
 
-        casos_diarios <- dplyr::filter(data_sisa,
-                                       residencia_provincia_nombre == 'Buenos Aires' &
-                                         fecha_enfermo == fecha_formato() ) |>  #combino horarios
-          dplyr::group_by(residencia_departamento_nombre) |>
+        casos_diarios <- data_sisa |> 
+                                     dplyr::filter(
+                                       .data$residencia_provincia_nombre == 'Buenos Aires' &
+                                       .data$fecha_enfermo == fecha_formato() ) |>  #combino horarios
+          dplyr::group_by(.data$residencia_departamento_nombre) |>
           dplyr::summarize(n_casos = dplyr::n()) |>
-          dplyr::rename(partido = residencia_departamento_nombre) |>
+          dplyr::rename(partido = .data$residencia_departamento_nombre) |>
           rbind(comunas)
 
 # 3. Grafico
 # uso un left_join porque ya casos_darios_partido no es un sf dataframe
 
-        cents =  centroides_mapa |>
-          cbind(sf::st_coordinates(centroides_mapa)) |>
-          dplyr::arrange(partido)
+        cents  <-   centroides_mapa |>
+          cbind(sf::st_coordinates(.data$centroides_mapa)) |>
+          dplyr::arrange(.data$partido)
 
         # corrijo un error de tipeo que me impedia terminar el join
         cents[78,'partido'] <- 'Lomas De Zamora'
@@ -237,18 +237,21 @@ base::colnames(px_baires)[2] <- as.character("Noche")
 
         sf::st_geometry(cents) <-  NULL
 
-        sisa =   casos_diarios |>
-          dplyr::left_join(cents, by = c('partido')) |>
-          tidyr::drop_na(n_casos) |>
-          dplyr::arrange(desc(n_casos)) |>
-          dplyr::mutate(crit_covid = dplyr::case_when(10 >= n_casos &
-                                                 n_casos >= 1 ~ "1 - 10",
-                                        100 >= n_casos &
-                                          n_casos > 10 ~ "10 - 100",
-                                        n_casos > 100 ~ "Más de 100")) |>
-          dplyr::mutate(crit_covid = forcats::fct_relevel(crit_covid, c("1 - 10",
-                                                               "10 - 100",
-                                                               "Más de 100")))
+        sisa <- casos_diarios |>
+          dplyr::left_join(cents, 
+                           by = c('partido')) |>
+          tidyr::drop_na(.data$n_casos) |>
+          dplyr::arrange(dplyr::desc(.data$n_casos)) |>
+          dplyr::mutate(crit_covid = dplyr::case_when(
+                                           10 >= .data$n_casos &
+                                           .data$n_casos >= 1 ~ "1 - 10",
+                                           100 >= .data$n_casos &
+                                           .data$n_casos > 10 ~ "10 - 100",
+                                           .data$n_casos > 100 ~ "Más de 100")) |>
+          dplyr::mutate(crit_covid = forcats::fct_relevel(.data$crit_covid, 
+                                                          c("1 - 10",
+                                                           "10 - 100",
+                                                           "Más de 100")))
 
        sisa
 
@@ -260,8 +263,8 @@ base::colnames(px_baires)[2] <- as.character("Noche")
 
        # st_read('data/rasters/px_baires.gpkg')  
        px_baires |>
-        dplyr::filter(fecha == fecha_formato(),
-                      tipo_de_raster == input$tipo_tab
+        dplyr::filter(.data$fecha == fecha_formato(),
+                      .data$tipo_de_raster == input$tipo_tab
                       ) 
       })
 
@@ -285,20 +288,28 @@ burbujas_plot <- shiny::reactive({
               "-20 - -30"="#4393C3",
               "-30 - -40"="#2166AC",
               "menor a -40"="#053061")
+  
+  tam_burb <- sisa() |> 
+    dplyr::group_by(.data$crit_covid) |>
+    dplyr::arrange(dplyr::desc(.data$n_casos))
 
-  pep = sisa() |> dplyr::group_by(crit_covid) |> dplyr::arrange(dplyr::desc(n_casos))
-
-  # Define three ranges for n_casos that correspond to different bubble sizes
-  q <- quantile(pep$n_casos, probs = c(0.5, 0.9))
+  # Rangos para n_casos que se corresponden con los tamaños de las burbujas
+  q <- quantile(tam_burb$n_casos,
+                probs = c(0.5, 0.9))
 
   size_small <- as.integer(q[[1]])
   size_medium <- as.integer(q[[2]])
 
   # Create three separate data frames based on the ranges of n_casos
-  pep_small <- subset(pep, n_casos <= size_small)
-  pep_medium <- subset(pep, n_casos > size_small &
-                         n_casos <= size_medium)
-  pep_large <- subset(pep, n_casos > size_medium)
+  tam_burb_small <- subset(tam_burb,
+                           n_casos <= size_small)
+  
+  tam_burb_medium <- subset(tam_burb,
+                            n_casos > size_small &
+                            n_casos <= size_medium)
+  
+  tam_burb_large <- subset(tam_burb,
+                           n_casos > size_medium)
 
 
  plotly::plot_ly() |>
@@ -309,7 +320,6 @@ burbujas_plot <- shiny::reactive({
           color = ~base::get(input$momento),
           colors = colors,
           stroke = I("transparent"),
-        #  text = ~partido,
           hoveron = "fills",
           hoverinfo = 'name',
           legendgroup = 'criterio',
@@ -319,7 +329,7 @@ burbujas_plot <- shiny::reactive({
                                   color = "black"))
    ) |>
    plotly::add_markers(
-     data = pep_small,
+     data = tam_burb_small,
      type = 'scatter',
      mode = 'markers',
      x = ~X,
@@ -346,7 +356,7 @@ burbujas_plot <- shiny::reactive({
                            "<extra></extra>")
    ) |>
    plotly::add_markers(
-     data = pep_medium,
+     data = tam_burb_medium,
      type = 'scatter',
      mode = 'markers',
      x = ~X,
@@ -373,7 +383,7 @@ burbujas_plot <- shiny::reactive({
                            "<extra></extra>")
    ) |>
    plotly::add_markers(
-     data = pep_large,
+     data = tam_burb_large,
      type = 'scatter',
      mode = 'markers',
      x = ~X,
@@ -424,7 +434,8 @@ burbujas_plot()
 
 output$zoom_map <-  plotly::renderPlotly({
 
-bsas_part <- bsas |> dplyr::filter(partido == input$partidos)
+bsas_part <- bsas |>
+  dplyr::filter(.data$partido == input$partidos)
 part_bbox <- sf::st_bbox(bsas_part)
 
 m <- list(

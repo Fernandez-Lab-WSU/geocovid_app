@@ -7,7 +7,7 @@
 ReporteUI(id)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 }
 \value{
 Botón de descarga del reporte.

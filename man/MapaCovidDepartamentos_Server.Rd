@@ -7,7 +7,7 @@
 MapaCovidDepartamentos_Server(id, data_sisa, base_raster, bsas, amba_caba)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{data_sisa}{Dataframe con los casos diarios reportados de COVID-19.}
 
@@ -20,8 +20,6 @@ o el momento del día que representan.}
 
 \item{amba_caba}{String. Vector con los nombres de los partidos
 que conforman el AMBA sin las comunas de Provincia de Buenos Aires.}
-
-\item{date}{Fecha seleccionada.}
 }
 \value{
 Mapas y gráficos del tab 3.

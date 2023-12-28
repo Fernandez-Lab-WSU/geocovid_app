@@ -7,7 +7,7 @@
 MapaPartido_UI(id)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 }
 \value{
 Mapa leaflet en la IU

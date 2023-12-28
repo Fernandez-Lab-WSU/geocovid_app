@@ -7,7 +7,7 @@
 MapaBaires_UI(id)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 }
 \value{
 posición del mapa leaflet de Buenos Aires con proxy.

@@ -15,7 +15,7 @@ MapaBaires_Server(
 )
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{bsas}{Dataset de clase sf con los partidos de Buenos Aires.}
 

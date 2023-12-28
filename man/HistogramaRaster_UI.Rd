@@ -7,7 +7,7 @@
 HistogramaRaster_UI(id)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 }
 \value{
 Histograma de la movilidad ciudadana por partido, respetando la

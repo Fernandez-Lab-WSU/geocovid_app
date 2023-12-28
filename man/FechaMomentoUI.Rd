@@ -7,7 +7,7 @@
 FechaMomentoUI(id, base_raster)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{base_raster}{Dataframe que lista todos los rasters y desagrega en
 sus columnas características de interes, como si son rasters de

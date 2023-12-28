@@ -1,10 +1,10 @@
 #' GeoCovid app Server
-#'
-#' @param input 
-#' @param output 
-#' @param session 
-#' @param r 
 #' 
+#' @importFrom rlang .data
+#' @param input input 
+#' @param output output
+#' @param session session
+#' @param r r
 #' @export
 
 server <- function(input, output, session, r) {
@@ -53,7 +53,7 @@ server <- function(input, output, session, r) {
       
     }else{
       fecha <- eleccion_fecha$casos_covid()
-      paste('Movilidad ciudadana el', format(ymd_hms(fecha),
+      paste('Movilidad ciudadana el', format(lubridate::ymd_hms(fecha),
                                              format = "%Y-%m-%d"))}
   })
   

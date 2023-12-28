@@ -7,7 +7,7 @@
 Dygraph_UI(id)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 }
 \value{
 Dos gráficos de casos de COVID-19 en el tiempo.

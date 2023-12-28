@@ -3,8 +3,7 @@
 #' @description
 #' Este módulo se encuentra en el tab 2: 'Por partido' de GeoCovid app
 #' 
-#' @param id 
-#'
+#' @param id Module name
 #' @return Botón de descarga del reporte.
 #' @export
 ReporteUI <- function(id) {
@@ -19,7 +18,7 @@ ReporteUI <- function(id) {
 #' @description
 #' Este módulo se encuentra en el tab 2: 'Por partido' de GeoCovid app
 #'
-#' @param id 
+#' @param id Module name
 #' @param part Partido de la provincia de Buenos Aires, seleccionado en otro 
 #' módulo.
 #' @param fecha Fecha seleccionada.

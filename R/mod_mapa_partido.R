@@ -3,8 +3,8 @@
 #' @description
 #' Este mapa se encuentra en el tab 2, "por partido" de GeoCovid app
 #' 
-#' @param id 
-#'
+#' @param id Module name
+#' 
 #' @return Mapa leaflet en la IU
 #' @export
 MapaPartido_UI <- function(id) {
@@ -27,7 +27,7 @@ MapaPartido_UI <- function(id) {
 #' @description
 #' Este mapa se encuentra en el tab 2, "por partido" de GeoCovid app
 #'
-#' @param id 
+#' @param id Module name
 #' @param amba_reducido_names String. Vector con los nombres de los partidos 
 #' que conforman el AMBA.
 #' @param base_raster Dataframe que lista todos los rasters y desagrega en 
@@ -43,7 +43,7 @@ MapaPartido_UI <- function(id) {
 #' 0am, 8 am o 4 pm.
 #' @param tipo_de_raster String. Si el raster corresponde a el cambio porcentual 
 #' prepandemia (pc) o semanal (7dpc).
-#' @param opacity Double. Valor de opacidad del raster. 
+#' @param opacidad Double. Valor de opacidad del raster. 
 #'
 #' @return Mapa raster por partido creado con leaflet.
 #' @export
@@ -76,20 +76,15 @@ MapaPartido_Server <-  function(id,
 
         }else{
 
-
-
    formatted_date <- formatted_date(fecha())  }
-
-
-
 
         # selecciono un solo dia y tiempo, ya que estoy probando
         raster_data <-  base_raster |>
-          dplyr::filter(fecha == as.Date(formatted_date,
+          dplyr::filter(.data$fecha == as.Date(formatted_date,
                                          origin = "1970-01-01"),
-                        tipo_de_raster == tipo_de_raster(),
-                        momento == momento_dia, # es un valor no reactivo
-                       locacion == area()
+                        .data$tipo_de_raster == tipo_de_raster(),
+                        .data$momento == momento_dia, # es un valor no reactivo
+                        .data$locacion == area()
                        )
 
       terra::rast(paste0('data/rasters/', raster_data$value))
@@ -97,22 +92,21 @@ MapaPartido_Server <-  function(id,
       })
 
       filter_partido <- shiny::reactive({
-        print(bsas)
 
         if(part() %in% amba_reducido_names){ # amba
 
           # ver Partidos_Input.R
           amba <-  dplyr::filter(bsas,
-                                 partido %in% amba_reducido_names)
+                                 .data$partido %in% amba_reducido_names)
 
           sf::st_as_sf(base::subset(amba, # incluye amba
-                                    partido == part()))
+                                    .data$partido == part()))
 
         }else if(!(part() %in% amba_reducido_names)){ #baires
 
           # ver Partidos_Input.R
           prov <-  dplyr::filter(bsas,
-                                 !partido %in% amba_reducido_names)
+                                 !.data$partido %in% amba_reducido_names)
 
           # recorto por poligono
           sf::st_as_sf(subset(prov,

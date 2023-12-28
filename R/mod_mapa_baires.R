@@ -4,7 +4,7 @@
 #' Este mapa se encuentra el tab 1 correspondiente al 
 #' Mapa provincia de Buenos Aires. 
 #'
-#' @param id 
+#' @param id Module name
 #'
 #' @return posición del mapa leaflet de Buenos Aires con proxy.
 #' También retorna el valor de zoom a medida que cambia durante la navegación.
@@ -37,7 +37,8 @@ MapaBaires_UI <- function(id) {
 #' Este mapa se encuentra el tab 1 correspondiente al 
 #' Mapa provincia de Buenos Aires. 
 #'
-#' @param id 
+#'
+#' @param id Module name
 #' @param bsas Dataset de clase sf con los partidos de Buenos Aires.
 #' @param imagen Imagen raster representando la movilidad ciudadana.
 #' @param area El raster puede corresponder a Buenos Aires provincia o a AMBA.

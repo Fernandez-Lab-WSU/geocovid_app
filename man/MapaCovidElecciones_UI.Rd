@@ -7,7 +7,7 @@
 MapaCovidElecciones_UI(id, base_raster, amba_reducido_names)
 }
 \arguments{
-\item{id}{}
+\item{id}{Module name}
 
 \item{base_raster}{Dataframe que lista todos los rasters y desagrega en
 sus columnas características de interes, como si son rasters de
