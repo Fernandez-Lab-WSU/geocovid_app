@@ -45,7 +45,7 @@ HistogramaRaster_UI <- function(id) {
 #' @export
 HistogramaRaster_Server <- function(id,
                                     amba_reducido_names,
-                                    bsas, base_raster,
+                                    bsas_comunas, base_raster,
                                     area, fecha,
                                     tipo_de_raster, part,
                                     momento_dia) {
@@ -90,7 +90,7 @@ raster_hist <- reactive({
         if(part() %in% amba_reducido_names){
 
           # ver Patidos_Input.R
-          amba <-  dplyr::filter(bsas,
+          amba <-  dplyr::filter(bsas_comunas,
                                  partido %in% amba_reducido_names)
 
           # recorto por poligono
@@ -110,7 +110,7 @@ raster_hist <- reactive({
         }else if(!(part() %in% amba_reducido_names)){
 
           # ver Patidos_Input.R
-          prov <-  dplyr::filter(bsas,
+          prov <-  dplyr::filter(bsas_comunas,
                                  !partido %in% amba_reducido_names)
 
         # recorto por poligono

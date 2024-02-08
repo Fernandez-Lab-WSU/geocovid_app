@@ -49,8 +49,10 @@ MapaPartido_UI <- function(id) {
 #' @export
 MapaPartido_Server <-  function(id,
                                 amba_reducido_names,
-                                base_raster, bsas,
-                                area, fecha,
+                                base_raster, 
+                                bsas_comunas,
+                                area, 
+                                fecha,
                                 tipo_de_raster, 
                                 opacidad, part,
                                 momento_dia) {
@@ -98,7 +100,7 @@ MapaPartido_Server <-  function(id,
         if(part() %in% amba_reducido_names){ # amba
 
           # ver Partidos_Input.R
-          amba <-  dplyr::filter(bsas,
+          amba <-  dplyr::filter(bsas_comunas,
                                  .data$partido %in% amba_reducido_names)
 
           sf::st_as_sf(base::subset(amba, 
@@ -132,7 +134,7 @@ pal <- leaflet::colorBin(palette = c("#0000FF", "#0040FF",
                                   -10, -20, -30, -40, -50),
                          na.color = "transparent")
 
-bbx <- sf::st_bbox(isolate(filter_partido()))
+bbx <- sf::st_bbox(filter_partido())
 
         # mapa mañana
         leaf_map <- leaflet::leaflet(options = leaflet::leafletOptions(zoomControl = FALSE)) |>

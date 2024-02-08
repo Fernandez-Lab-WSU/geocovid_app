@@ -121,7 +121,7 @@ MapaCovidDepartamentos_Server <- function(id,
    # pxd_baires <- st_read('data/px_baires.gpkg') 
     pxd_baires <- pxd_baires |>
       dplyr::filter(.data$fecha < '2020-05-15' &
-                    .data$fecha > '2020-05-08')
+                    .data$fecha > '2020-05-08') # sera replazado con los datos finales
 print(pxd_baires)
      pxdy <-  pxd_baires |>
         dplyr::filter(.data$partido == input$partidos,
@@ -212,7 +212,7 @@ base::colnames(px_baires)[2] <- as.character("Noche")
           dplyr::group_by(.data$residencia_provincia_nombre) |>
           dplyr::summarize(n_casos = dplyr::n()) |>
           dplyr::rename('partido' = .data$residencia_provincia_nombre)
-print(comunas)
+
         comunas[1,'partido'] <- "Capital Federal"
 
         casos_diarios <- data_sisa |> 
@@ -223,22 +223,12 @@ print(comunas)
           dplyr::summarize(n_casos = dplyr::n()) |>
           dplyr::rename(partido = .data$residencia_departamento_nombre) |>
           rbind(comunas)
-        print(casos_diarios)
+
 # 3. Grafico
 # uso un left_join porque ya casos_darios_partido no es un sf data.frame
 
-        cents  <-   centroides_mapa |>
-          cbind(sf::st_coordinates(centroides_mapa)) |>
-          dplyr::arrange(partido)
-
-        # corrijo un error de tipeo que me impedia terminar el join
-        cents[78,'partido'] <- 'Lomas De Zamora'
-        cents[132,'partido'] <- 'Tres De Febrero'
-
-        sf::st_geometry(cents) <-  NULL
-
         sisa <- casos_diarios |>
-          dplyr::left_join(cents, 
+          dplyr::left_join(centroides_mapa,
                            by = c('partido')) |>
           tidyr::drop_na(.data$n_casos) |>
           dplyr::arrange(dplyr::desc(.data$n_casos)) |>
@@ -359,8 +349,8 @@ burbujas_plot <- shiny::reactive({
      data = tam_burb_medium,
      type = 'scatter',
      mode = 'markers',
-     x = ~X,
-     y = ~Y,
+     x = ~X, # centroide
+     y = ~Y, # centroide
      name = paste(size_small, '-', size_medium),
      legendgroup = ~n_casos,
      legendgrouptitle = list(#text = 'Casos COVID-19',

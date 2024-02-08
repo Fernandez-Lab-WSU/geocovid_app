@@ -60,7 +60,7 @@ server <- function(input, output, session, r) {
   # Histogramas 
   HistogramaRaster_Server('hist',
                           amba_reducido_names =  amba_reducido_names,
-                          bsas = bsas,
+                          bsas_comunas = bsas_comunas, # Incluye comunas de CABA
                           base_raster = base_raster,
                           area = elecciones_usuario_partidos$area,
                           tipo_de_raster = reactive({ input$porcentaje2 }),
@@ -70,7 +70,7 @@ server <- function(input, output, session, r) {
   
   HistogramaRaster_Server('hist2',
                           amba_reducido_names =  amba_reducido_names,
-                          bsas = bsas,
+                          bsas_comunas = bsas_comunas,
                           base_raster = base_raster,
                           area = elecciones_usuario_partidos$area,
                           tipo_de_raster = reactive({ input$porcentaje2 }),
@@ -80,7 +80,7 @@ server <- function(input, output, session, r) {
   
   HistogramaRaster_Server('hist3',
                           amba_reducido_names =  amba_reducido_names,
-                          bsas = bsas,
+                          bsas_comunas = bsas_comunas,
                           base_raster = base_raster,
                           area = elecciones_usuario_partidos$area,
                           tipo_de_raster = reactive({ input$porcentaje2 }),
@@ -91,7 +91,7 @@ server <- function(input, output, session, r) {
   # Mapas con detalle del partido
   MapaPartido_Server("baires_partidos",
                      amba_reducido_names =  amba_reducido_names,
-                     bsas = bsas,
+                     bsas_comunas = bsas_comunas,
                      base_raster = base_raster,
                      area = elecciones_usuario_partidos$area,
                      tipo_de_raster = reactive({ input$porcentaje2 }),
@@ -102,7 +102,7 @@ server <- function(input, output, session, r) {
   
   MapaPartido_Server("baires_partidos2",
                      amba_reducido_names =  amba_reducido_names,
-                     bsas = bsas,
+                     bsas_comunas = bsas_comunas,
                      base_raster = base_raster,
                      area = elecciones_usuario_partidos$area,
                      tipo_de_raster = reactive({ input$porcentaje2 }),
@@ -113,7 +113,7 @@ server <- function(input, output, session, r) {
   
   MapaPartido_Server("baires_partidos3",
                      amba_reducido_names =  amba_reducido_names,
-                     bsas = bsas,
+                     bsas_comunas = bsas_comunas,
                      base_raster = base_raster,
                      area = elecciones_usuario_partidos$area,
                      tipo_de_raster = reactive({ input$porcentaje2 }),
