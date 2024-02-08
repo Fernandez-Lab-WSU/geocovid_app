@@ -122,7 +122,7 @@ MapaCovidDepartamentos_Server <- function(id,
     pxd_baires <- pxd_baires |>
       dplyr::filter(.data$fecha < '2020-05-15' &
                     .data$fecha > '2020-05-08')
-
+print(pxd_baires)
      pxdy <-  pxd_baires |>
         dplyr::filter(.data$partido == input$partidos,
                       .data$tipo_de_raster == input$tipo_tab)
@@ -212,7 +212,7 @@ base::colnames(px_baires)[2] <- as.character("Noche")
           dplyr::group_by(.data$residencia_provincia_nombre) |>
           dplyr::summarize(n_casos = dplyr::n()) |>
           dplyr::rename('partido' = .data$residencia_provincia_nombre)
-
+print(comunas)
         comunas[1,'partido'] <- "Capital Federal"
 
         casos_diarios <- data_sisa |> 
@@ -223,13 +223,13 @@ base::colnames(px_baires)[2] <- as.character("Noche")
           dplyr::summarize(n_casos = dplyr::n()) |>
           dplyr::rename(partido = .data$residencia_departamento_nombre) |>
           rbind(comunas)
-
+        print(casos_diarios)
 # 3. Grafico
-# uso un left_join porque ya casos_darios_partido no es un sf dataframe
+# uso un left_join porque ya casos_darios_partido no es un sf data.frame
 
         cents  <-   centroides_mapa |>
-          cbind(sf::st_coordinates(.data$centroides_mapa)) |>
-          dplyr::arrange(.data$partido)
+          cbind(sf::st_coordinates(centroides_mapa)) |>
+          dplyr::arrange(partido)
 
         # corrijo un error de tipeo que me impedia terminar el join
         cents[78,'partido'] <- 'Lomas De Zamora'
@@ -252,7 +252,7 @@ base::colnames(px_baires)[2] <- as.character("Noche")
                                                           c("1 - 10",
                                                            "10 - 100",
                                                            "Más de 100")))
-
+       print(sisa)
        sisa
 
       })
@@ -449,7 +449,8 @@ m <- list(
   burbujas_plot() |>
     plotly::add_sf(
       stroke = I("#004643"),
-      data = subset(px_data(), partido == input$partidos),
+      data = subset(px_data(), 
+                    partido == input$partidos),
       color = I("#ffffff00"),
       line = list( width = 4 ),
       hoverinfo='skip'

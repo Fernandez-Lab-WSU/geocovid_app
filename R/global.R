@@ -3,7 +3,6 @@
 # library(reactlog)
 # reactlog_enable()
 
-
 # Cargo datasets ------
 
 amba_reducido_names <- c('Almirante Brown',
@@ -79,7 +78,7 @@ base_raster <- all_files[grep(".tif$",
 
 
 # Permite leer el directorio imagenes dentro de www/'
-shiny::addResourcePath(prefix = "imagenes", 
-                directoryPath = system.file("www/imagenes", 
+shiny::addResourcePath(prefix = "imagenes",
+                directoryPath = system.file("www/imagenes",
                                             package = "geocovidapp"))
 

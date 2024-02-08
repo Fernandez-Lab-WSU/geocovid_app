@@ -188,7 +188,6 @@ MapaBaires_Server <- function(id, bsas,
                                          "#FFCC00", "#FF9900",
                                          "#FF6600", "#FF3300",
                                          "#FF0000"),
-                             # colorRamps::blue2red(10),
                              bins = c(50,40, 30 , 20 , 10, 1, -1,
                                       -10, -20, -30,-40, -50), 
                              na.color = "transparent")
@@ -268,7 +267,7 @@ if(basemap() == 'calles'){
                                 position = "topright",
                                 group = "basic",
                                 layerId = "raster2",
-                                labFormat = function(type, cuts, p) {  # Here's the trick
+                                labFormat = function(type, cuts, p) {  
                                   paste0(labels)
                                 }) |>
                       leaflet::addPolygons(data = bsas,

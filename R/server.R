@@ -57,7 +57,7 @@ server <- function(input, output, session, r) {
                                              format = "%Y-%m-%d"))}
   })
   
-  # I updatea los histogramas y los mapas
+  # Histogramas 
   HistogramaRaster_Server('hist',
                           amba_reducido_names =  amba_reducido_names,
                           bsas = bsas,
@@ -88,6 +88,7 @@ server <- function(input, output, session, r) {
                           momento_dia = 'noche',
                           part = elecciones_usuario_partidos$partido)
   
+  # Mapas con detalle del partido
   MapaPartido_Server("baires_partidos",
                      amba_reducido_names =  amba_reducido_names,
                      bsas = bsas,
@@ -140,8 +141,8 @@ server <- function(input, output, session, r) {
   
   MapaCovidDepartamentos_Server('casos_covid',
                                 amba_caba = amba_caba,
-                                data_sisa,
-                                base_raster,
-                                bsas)
-  
+                                data_sisa = data_sisa,
+                                base_raster = base_raster,
+                                bsas = bsas)
+
 }

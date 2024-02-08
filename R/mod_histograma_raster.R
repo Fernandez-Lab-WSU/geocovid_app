@@ -78,7 +78,10 @@ HistogramaRaster_Server <- function(id,
                         .data$locacion == area()
           )
 
-        terra::rast(paste0('data/rasters/',raster_data$value))
+        terra::rast(paste0(system.file('rasters',
+                                       package = 'geocovidapp'),
+                           '/',
+                           raster_data$value))
 
       })
 

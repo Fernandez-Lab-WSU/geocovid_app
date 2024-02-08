@@ -87,7 +87,9 @@ MapaPartido_Server <-  function(id,
                         .data$locacion == area()
                        )
 
-      terra::rast(paste0('data/rasters/', raster_data$value))
+      terra::rast(paste0(system.file("rasters", package = 'geocovidapp'),
+                         "/",
+                         raster_data$value))
 
       })
 
@@ -99,8 +101,8 @@ MapaPartido_Server <-  function(id,
           amba <-  dplyr::filter(bsas,
                                  .data$partido %in% amba_reducido_names)
 
-          sf::st_as_sf(base::subset(amba, # incluye amba
-                                    .data$partido == part()))
+          sf::st_as_sf(base::subset(amba, 
+                                    partido == part()))
 
         }else if(!(part() %in% amba_reducido_names)){ #baires
 
@@ -109,7 +111,7 @@ MapaPartido_Server <-  function(id,
                                  !.data$partido %in% amba_reducido_names)
 
           # recorto por poligono
-          sf::st_as_sf(subset(prov,
+          sf::st_as_sf(base::subset(prov,
                               partido == part()))
 
 
@@ -130,6 +132,8 @@ pal <- leaflet::colorBin(palette = c("#0000FF", "#0040FF",
                                   -10, -20, -30, -40, -50),
                          na.color = "transparent")
 
+bbx <- sf::st_bbox(isolate(filter_partido()))
+
         # mapa mañana
         leaf_map <- leaflet::leaflet(options = leaflet::leafletOptions(zoomControl = FALSE)) |>
           leaflet::addTiles() |>
@@ -148,11 +152,10 @@ pal <- leaflet::colorBin(palette = c("#0000FF", "#0040FF",
                                fillOpacity = 0.1,
                                smoothFactor = 0.5,
                                group = "basic") |>
-          leaflet::fitBounds(
-            lng1 = isolate(filter_partido())$lng1,
-            lat1 = isolate(filter_partido())$lat1,
-            lng2 = isolate(filter_partido())$lng2,
-            lat2 = isolate(filter_partido())$lat2)
+          leaflet::fitBounds(lng1 = bbx$xmin[[1]],
+                            lat1= bbx$ymin[[1]],
+                            lng2 = bbx$xmax[[1]],
+                            lat2 = bbx$ymax[[1]])
 
 
         leaf_map

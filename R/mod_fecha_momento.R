@@ -97,7 +97,10 @@ FechaMomento_Server <- function(id,
                                    .data$locacion == input$area)
                    
                    # leo el raster
-                   terra::rast(paste0('data/rasters/', raster_data$value))
+                   terra::rast(paste0(system.file('rasters',
+                                                  package = 'geocovidapp'),
+                                      '/',
+                                      raster_data$value))
                  })
                  
                  # revelo la barra de transparencia cuando el zoom es mayor a 6
